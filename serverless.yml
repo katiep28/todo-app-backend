@@ -8,6 +8,10 @@ provider:
 functions:
   tasks:
     handler: handler.tasks
+    environment:
+      HOST: ${opt:HOST}
+      USER: ${opt:USER}
+      PASSWORD: ${opt:PASSWORD}
     events:
       - http:
           path: tasks

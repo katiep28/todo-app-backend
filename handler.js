@@ -2,6 +2,7 @@ const express = require("express"); //identifies the code that should be run
 const cors = require("cors");  
 const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
+const mysql = require("mysql");
 
 const app = express();
 
@@ -9,13 +10,26 @@ app.use(cors());
 //Allows express to use jason data sent that is sent on the body of any requests
 app.use(bodyParser.json());
 
+const connection = mysql.createConnection({
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: "todo_list"
+});
+
+
 app.get("/tasks", function(request, response){
-  response.status(200).send({
-    tasks: [
-      {id: 1, text: "Clean the cat", completed: false, date: "2019-10-13"},
-      {id: 2, text: "Wash the tree", completed: false, date: "2019-10-14"},
-      {id: 3, text: "Eat Wine", completed: false, date: "2019-10-15"}
-    ]
+  connection.query("SELECT * FROM task", function(err, data) {
+    if (err) {
+      console.log("Error fetching tasks", err);
+      response.status(500).json({
+        error: err
+      });
+    } else {
+      response.json({
+        tasks: data
+      });
+    }
   });
 });
 
