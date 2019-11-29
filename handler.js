@@ -52,11 +52,34 @@ app.delete("/tasks/:taskId",function (request, response){
 
 });
 
-// app.post("/tasks",function (request, response){
-//   // Crete a new task here
-//   const task = request.body;
-//   response.status(201).send("Created a new task with text " + task.text);
-// });
+app.post("/tasks",function (request, response){
+  // Crete a new task here
+  const idValue = request.body.id;
+  const textValue = request.body.text;
+  const statusValue = request.body.status;
+  const dateValue = request.body.date;
+  const usernameValue = request.body.username;
+  const values = request.body;
+
+  // response.status(201).send("Created a new task with text " + task.text);
+
+  connection.query("INSERT INTO task (id, text, status, date, username) VALUES (?, ?, ?, ?, ?)",
+                  // [5, "Eat food", "N", "2019-11-28", "heleng"], 
+                   [values.id, values.text, values.status, values.date, values.username], 
+                  //  [idValue, textValue, statusValue, dateValue, usernameValue], 
+                  //  taskValues, 
+                  function(err, data) {
+    if (err) {
+      console.log("Error Inserting tasks", err);
+      response.status(500).json({
+        error: err
+      });
+    } else {
+      console.log("Insert worked");
+     response.status(200).send("Received a request to insert data ");
+    };
+  });
+});
 
 // app.put("/tasks/:taskId",function (request, response){
 //   // Update task here
