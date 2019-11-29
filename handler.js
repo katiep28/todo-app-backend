@@ -36,7 +36,21 @@ app.get("/tasks", function(request, response){
 app.delete("/tasks/:taskId",function (request, response){
   // delete the task with the id passed
   const id = request.params.taskId;
-  response.status(200).send("Received a request to delete task ID " + id);
+  // response.status(200).send("Received a request to delete task ID " + id);
+
+  connection.query("DELETE FROM task WHERE id = ? ", [id], function(err, data) {
+    if (err) {
+      console.log("Error deleteing tasks", err);
+      response.status(500).json({
+        error: err
+      });
+    } else {
+      // console.log(sql); 
+      // response.json({
+      //   tasks: data    
+    }
+  });
+
 });
 
 app.post("/tasks",function (request, response){
@@ -44,6 +58,7 @@ app.post("/tasks",function (request, response){
   const task = request.body;
   response.status(201).send("Created a new task with text " + task.text);
 });
+
 app.put("/tasks/:taskId",function (request, response){
   // Update task here
   const id = request.params.taskId;
