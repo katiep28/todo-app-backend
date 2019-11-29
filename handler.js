@@ -46,9 +46,8 @@ app.delete("/tasks/:taskId",function (request, response){
       });
     } else {
       console.log("Delete worked");
-      response.json({
-        tasks: data    
-    }
+     response.status(200).send("Received a request to delete task ID " + id);
+    };
   });
 
 });
