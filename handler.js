@@ -45,26 +45,26 @@ app.delete("/tasks/:taskId",function (request, response){
         error: err
       });
     } else {
-      // console.log(sql); 
-      // response.json({
-      //   tasks: data    
+      console.log("Delete worked");
+      response.json({
+        tasks: data    
     }
   });
 
 });
 
-app.post("/tasks",function (request, response){
-  // Crete a new task here
-  const task = request.body;
-  response.status(201).send("Created a new task with text " + task.text);
-});
+// app.post("/tasks",function (request, response){
+//   // Crete a new task here
+//   const task = request.body;
+//   response.status(201).send("Created a new task with text " + task.text);
+// });
 
-app.put("/tasks/:taskId",function (request, response){
-  // Update task here
-  const id = request.params.taskId;
-  const task = request.body;
-  response.status(200).send("Task updated " + task.text);
-});
+// app.put("/tasks/:taskId",function (request, response){
+//   // Update task here
+//   const id = request.params.taskId;
+//   const task = request.body;
+//   response.status(200).send("Task updated " + task.text);
+// });
 
 
 module.exports.tasks = serverless(app);
