@@ -45,7 +45,7 @@ app.delete("/tasks/:taskId",function (request, response){
         error: err
       });
     } else {
-      console.log("Delete worked");
+
      response.status(200).send("Received a request to delete task ID " + id);
     };
   });
@@ -54,20 +54,18 @@ app.delete("/tasks/:taskId",function (request, response){
 
 app.post("/tasks",function (request, response){
   // Crete a new task here
-  const idValue = request.body.id;
-  const textValue = request.body.text;
-  const statusValue = request.body.status;
-  const dateValue = request.body.date;
-  const usernameValue = request.body.username;
+  // const idValue = request.body.id;
+  // const textValue = request.body.text;
+  // const statusValue = request.body.status;
+  // const dateValue = request.body.date;
+  // const usernameValue = request.body.username;
   const values = request.body;
 
   // response.status(201).send("Created a new task with text " + task.text);
 
   connection.query("INSERT INTO task (id, text, status, date, username) VALUES (?, ?, ?, ?, ?)",
-                  // [5, "Eat food", "N", "2019-11-28", "heleng"], 
-                   [values.id, values.text, values.status, values.date, values.username], 
+                   [values.id, values.text, values.status, values.date, values.username],  
                   //  [idValue, textValue, statusValue, dateValue, usernameValue], 
-                  //  taskValues, 
                   function(err, data) {
     if (err) {
       console.log("Error Inserting tasks", err);
@@ -75,18 +73,35 @@ app.post("/tasks",function (request, response){
         error: err
       });
     } else {
-      console.log("Insert worked");
-     response.status(200).send("Received a request to insert data ");
+     response.status(201).send("Received a request to insert data ");
     };
   });
 });
 
-// app.put("/tasks/:taskId",function (request, response){
-//   // Update task here
-//   const id = request.params.taskId;
-//   const task = request.body;
-//   response.status(200).send("Task updated " + task.text);
-// });
+app.put("/tasks/:taskId",function (request, response){
+  // Update task here
+  const id = request.params.taskId;
+  const values = request.body;
+  // response.status(200).send("Task updated " + task.text);
+  // response.status(200).send("Received a request to delete task ID " + id);
+
+  connection.query("UPDATE task SET status = 'C' WHERE id = ? ", [id], function(err, data) {
+    if (err) {
+      console.log("Error updateing task", err);
+      response.status(500).json({
+        error: err
+      });
+    } else {
+      console.log("Update worked");
+     response.status(200).send("Updated task ID " + id);
+    };
+  });
+
+
+
+
+
+});
 
 
 module.exports.tasks = serverless(app);
