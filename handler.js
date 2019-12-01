@@ -3,6 +3,7 @@ const cors = require("cors");
 const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
+const uuid = require("uuid/v4");
 
 const app = express();
 
@@ -62,7 +63,7 @@ app.post("/tasks", function (request, response) {
   const values = request.body;
 
   connection.query("INSERT INTO task (id, text, status, date, username) VALUES (?, ?, ?, ?, ?)",
-    [values.id, values.text, values.status, values.date, values.username],
+    [uuid(), values.text, values.status, values.date, values.username],
     //  [idValue, textValue, statusValue, dateValue, usernameValue], 
     function (err, data) {
       if (err) {
