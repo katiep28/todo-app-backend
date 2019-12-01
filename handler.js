@@ -1,5 +1,5 @@
 const express = require("express"); //identifies the code that should be run
-const cors = require("cors");  
+const cors = require("cors");
 const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
@@ -18,8 +18,8 @@ const connection = mysql.createConnection({
 });
 
 
-app.get("/tasks", function(request, response){
-  connection.query("SELECT * FROM task", function(err, data) {
+app.get("/tasks", function (request, response) {
+  connection.query("SELECT * FROM task", function (err, data) {
     if (err) {
       console.log("Error fetching tasks", err);
       response.status(500).json({
@@ -33,12 +33,12 @@ app.get("/tasks", function(request, response){
   });
 });
 
-app.delete("/tasks/:taskId",function (request, response){
+app.delete("/tasks/:taskId", function (request, response) {
   // delete the task with the id passed
   const id = request.params.taskId;
   // response.status(200).send("Received a request to delete task ID " + id);
 
-  connection.query("DELETE FROM task WHERE id = ? ", [id], function(err, data) {
+  connection.query("DELETE FROM task WHERE id = ? ", [id], function (err, data) {
     if (err) {
       console.log("Error deleteing tasks", err);
       response.status(500).json({
@@ -46,13 +46,13 @@ app.delete("/tasks/:taskId",function (request, response){
       });
     } else {
 
-     response.status(200).send("Received a request to delete task ID " + id);
+      response.status(200).send("Received a request to delete task ID " + id);
     };
   });
 
 });
 
-app.post("/tasks",function (request, response){
+app.post("/tasks", function (request, response) {
   // Crete a new task here
   // const idValue = request.body.id;
   // const textValue = request.body.text;
@@ -61,31 +61,29 @@ app.post("/tasks",function (request, response){
   // const usernameValue = request.body.username;
   const values = request.body;
 
-  // response.status(201).send("Created a new task with text " + task.text);
-
   connection.query("INSERT INTO task (id, text, status, date, username) VALUES (?, ?, ?, ?, ?)",
-                   [values.id, values.text, values.status, values.date, values.username],  
-                  //  [idValue, textValue, statusValue, dateValue, usernameValue], 
-                  function(err, data) {
-    if (err) {
-      console.log("Error Inserting tasks", err);
-      response.status(500).json({
-        error: err
-      });
-    } else {
-     response.status(201).send("Received a request to insert data ");
-    };
-  });
+    [values.id, values.text, values.status, values.date, values.username],
+    //  [idValue, textValue, statusValue, dateValue, usernameValue], 
+    function (err, data) {
+      if (err) {
+        console.log("Error Inserting tasks", err);
+        response.status(500).json({
+          error: err
+        });
+      } else {
+        response.status(201).send("Received a request to insert data ");
+      };
+    });
 });
 
-app.put("/tasks/:taskId",function (request, response){
+app.put("/tasks/:taskId", function (request, response) {
   // Update task here
   const id = request.params.taskId;
   const values = request.body;
   // response.status(200).send("Task updated " + task.text);
   // response.status(200).send("Received a request to delete task ID " + id);
 
-  connection.query("UPDATE task SET status = 'C' WHERE id = ? ", [id], function(err, data) {
+  connection.query("UPDATE task SET status = 'C' WHERE id = ? ", [id], function (err, data) {
     if (err) {
       console.log("Error updateing task", err);
       response.status(500).json({
@@ -93,7 +91,7 @@ app.put("/tasks/:taskId",function (request, response){
       });
     } else {
       console.log("Update worked");
-     response.status(200).send("Updated task ID " + id);
+      response.status(200).send("Updated task ID " + id);
     };
   });
 
