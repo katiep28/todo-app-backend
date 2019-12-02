@@ -80,11 +80,12 @@ app.post("/tasks", function (request, response) {
 app.put("/tasks/:taskId", function (request, response) {
   // Update task here
   const id = request.params.taskId;
-  const values = request.body;
+
+  // const status = request.params.taskStatus;
   // response.status(200).send("Task updated " + task.text);
   // response.status(200).send("Received a request to delete task ID " + id);
 
-  connection.query("UPDATE task SET status = 'C' WHERE id = ? ", [id], function (err, data) {
+  connection.query("UPDATE task SET status = ? WHERE id = ? ", ["C",id], function (err, data) {
     if (err) {
       console.log("Error updateing task", err);
       response.status(500).json({
@@ -95,10 +96,6 @@ app.put("/tasks/:taskId", function (request, response) {
       response.status(200).send("Updated task ID " + id);
     };
   });
-
-
-
-
 
 });
 
