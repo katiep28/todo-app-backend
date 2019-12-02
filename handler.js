@@ -77,15 +77,12 @@ app.post("/tasks", function (request, response) {
     });
 });
 
-app.put("/tasks/:taskId", function (request, response) {
+app.put("/tasks/:taskId/:taskStatus", function (request, response) {
   // Update task here
   const id = request.params.taskId;
-
-  // const status = request.params.taskStatus;
-  // response.status(200).send("Task updated " + task.text);
-  // response.status(200).send("Received a request to delete task ID " + id);
-
-  connection.query("UPDATE task SET status = ? WHERE id = ? ", ["C",id], function (err, data) {
+  const status = request.params.taskStatus;
+  
+  connection.query("UPDATE task SET status = ? WHERE id = ? ", [status,id], function (err, data) {
     if (err) {
       console.log("Error updateing task", err);
       response.status(500).json({

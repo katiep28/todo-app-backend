@@ -26,7 +26,7 @@ functions:
           method: post
           cors: true
       - http:
-          path: tasks/{taskId}
+          path: tasks/{taskId}/{taskStatus}
           method: put
           cors: true
 
