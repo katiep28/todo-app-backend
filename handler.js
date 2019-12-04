@@ -47,19 +47,13 @@ app.delete("/tasks/:taskId", function (request, response) {
       });
     } else {
 
-      response.status(200).send("Received a request to delete task ID " + id);
+      response.status(200).send("Deleted task ID " + id);
     };
   });
 
 });
 
 app.post("/tasks", function (request, response) {
-  // Crete a new task here
-  // const idValue = request.body.id;
-  // const textValue = request.body.text;
-  // const statusValue = request.body.status;
-  // const dateValue = request.body.date;
-  // const usernameValue = request.body.username;
   const values = request.body;
 
   connection.query("INSERT INTO task (id, text, status, date, username) VALUES (?, ?, ?, ?, ?)",
